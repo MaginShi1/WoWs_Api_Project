@@ -1,0 +1,29 @@
+1 -  Get clan API from https://developers.wargaming.net/reference/all/wot/account/list/#response_block
+2 -  Obtain the player API from there and look up each player's data
+
+Data for each ship type:
+  - Battles
+  - Win rate
+  - Avg frags
+  - Avg dmg
+  - Avg plane destroyed
+  - Max frags
+  - Max dmg
+  - Max plane destroyed
+
+Criteria for the index:
+
+Calculating an index for each ship type separately, but only after 10 games per ship type
+
+
+On the selected ship type use the normal formula to rate it from 0 to 10 maybe keeping in consideration the games played up to 150 https://wows-numbers.com/personal/rating
+  rDmg = actualDmg/expectedDmg
+  rWins = actualWins/expectedWins
+  rFrags = actualFrags/expectedFrags
+  nDmg = max(0, (rDmg - 0.4) / (1 - 0.4))
+  nFrags = max(0, (rFrags - 0.1) / (1 - 0.1))
+  nWins = max(0, (rWins - 0.7) / (1 - 0.7))
+  PR =  700*nDMG + 300*nFrags + 150*nWins //TO FIX LATER WITH DATA TO MKAE IT GIVE A NUMBER 0 TO 10
+  Also, this number should be divided by 100 and multiplied by Val = (72) at 10 wins, Val is increased by 0.2 for every win, up to 100 once it reaches 150
+
+Player Index should be the avg accounting for games played (for example if 50% of the games were spent with a destroyer it will be kept in consideration)
